@@ -58,6 +58,8 @@ using System.Security.Cryptography.X509Certificates;
 
 internal class Program
 {
+    private static object addMore;
+    
     static void Main(string[] args)
     {
         Product[] menu = {
@@ -72,6 +74,7 @@ internal class Program
         int[] cartQuantities = new int[10];
         double[] cartSubtotals = new double[10];
         int cartCount = 0;
+        addMore = "Y";
 
          while (addMore.ToUpper() == "Y")
          {
