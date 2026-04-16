@@ -130,6 +130,7 @@ class Program
 
             if (!chosen.HasEnoughStock(quantity))
             {
+                Console.WriteLine();
                 Console.WriteLine($"Not enough stock! Only {chosen.RemainingStock} left.");
                 Console.WriteLine();
                 continue;
@@ -137,6 +138,7 @@ class Program
 
             if (cartCount == 10)
             {
+                Console.WriteLine();
                 Console.WriteLine("Cart is full!");
                 Console.WriteLine();
                 continue;
