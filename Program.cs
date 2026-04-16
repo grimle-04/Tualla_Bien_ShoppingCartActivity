@@ -61,11 +61,13 @@ internal class Program
     static void Main(string[] args)
     {
         Product[] menu = {
-            new Product(1, "Apple",   25.00,  50),
-            new Product(2, "Bread",   45.00,  30),
-            new Product(3, "Milk",    80.00,  20),
-            new Product(4, "Eggs",   120.00,  15),
-            new Product(5, "Butter",  95.00,  10)
+           new Product(1,"Infinix",4500.00,50),
+           new Product(2,"Oppo",5500.00,30),
+           new Product(3,"Vivo",6000.00,20),
+           new Product(4,"Samsung",10000.00,15),
+           new Product(5,"Apple",20000.00,10)
         };
+
+        
 
 
