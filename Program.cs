@@ -114,6 +114,57 @@ internal class Program
             Console.WriteLine("Sorry, this product is out of stock!");
             continue;
         }
+
+        Console.Write("Enter quantity: ");
+        string quantityInput = Console.ReadLine();
+        int quantity;
+
+        if (!int.TryParse(quantityInput, out quantity) || quantity <= 0)
+        {
+            Console.WriteLine("Invalid quantity!");
+            continue;
+        }
+
+        if (!chosen.HasEnoughStock(quantity))
+        {
+            Console.WriteLine($"Not enough stock! Only {chosen.RemainingStock} left.");
+            continue;
+        }
+
+        if (cartCount == 10)
+        {
+            Console.WriteLine("Cart is full!");
+            continue;
+        }
+
+        bool found = false;
+        for (int i = 0; i < cartCount; i++)
+        {
+            if (cartProducts[i].Id == chosen.Id)
+            {
+                cartQuantities[i] += quantity;
+                cartSubtotals[i] += chosen.GetItemTotal(quantity);
+                found = true;
+                Console.WriteLine($"{chosen.Name} updated in cart!");
+                break;
+            }
+        }
+
+        if (!found)
+        {
+            cartProducts[cartCount] = chosen;
+            cartQuantities[cartCount] = quantity;
+            cartSubtotals[cartCount] = chosen.GetItemTotal(quantity);
+            cartCount++;
+            Console.WriteLine($"{chosen.Name} added to cart!");
+        }
+
+        chosen.DeductStock(quantity);
+
+        Console.Write("\nAdd another item? (Y/N): ");
+        addMore = Console.ReadLine();
+
+        
         
 
 
