@@ -15,37 +15,37 @@ namespace ConsoleApp5
             public double Price;
             public int RemainingStock;
 
-            public Product(int id, string name, double price, int stock)
-            {
-                Id = id;
-                Name = name;
-                Price = price;
-                RemainingStock = stock;
-            }
+                   public Product(int id, string name, double price, int stock)
+        {
+            Id = id;
+            Name = name;
+            Price = price;
+            RemainingStock = stock;
+        }
 
-            public void DisplayProduct()
-            {
-                Console.WriteLine("[Id: ]" + Id);
-                Console.WriteLine("Name: " + Name);
-                Console.WriteLine("Price: " + Price);
-                Console.WriteLine("RemainingStock: " + RemainingStock);
-            }
+        public void DisplayProduct()
+        {
+            Console.WriteLine("[Id: " + Id + "]");
+            Console.WriteLine("[Name: " + Name + "]");
+            Console.WriteLine("[Price: " + Price + "]");
+            Console.WriteLine("[RemainingStock: " + RemainingStock + "]");
+            Console.WriteLine();
+        }
 
-            public double GetItemTotal(int quantity)
-            {
-                return Price * quantity;
-            }
+        public double GetItemTotal(int quantity)
+        {
+            return Price * quantity;
+        }
 
-            public bool HasEnoughStock(int quantity)
-            {
-                return RemainingStock >= quantity;
-            }
+        public bool HasEnoughStock(int quantity)
+        {
+            return RemainingStock >= quantity;
+        }
 
-            public void DeductStock(int quantity)
-            {
-                RemainingStock -= quantity;
-            }
-        
+        public void DeductStock(int quantity)
+        {
+            RemainingStock -= quantity;
+        }
     }
 }
 
