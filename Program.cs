@@ -73,6 +73,21 @@ internal class Program
         double[] cartSubtotals = new double[10];
         int cartCount = 0;
 
+         while (addMore.ToUpper() == "Y")
+         {
+            Console.WriteLine("===== STORE MENU =====");
+            foreach (Product p in menu)
+         {
+             if (p.RemainingStock == 0)
+                 Console.WriteLine("[{p.Id}] {p.Name} - OUT OF STOCK");
+             else
+                 p.DisplayProduct();
+         }
+
+         Console.Write("\nEnter product number: ");
+         string productInput = Console.ReadLine();
+         int productId;
+
 
         
 
