@@ -68,6 +68,14 @@ internal class Program
            new Product(5,"Apple",20000.00,10)
         };
 
+        Product[] cartProducts = new Product[10];
+        int[] cartQuantities = new int[10];
+        double[] cartSubtotals = new double[10];
+        int cartCount = 0;
+
+
+        
+
         
 
 
