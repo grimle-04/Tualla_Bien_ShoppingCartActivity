@@ -88,6 +88,34 @@ internal class Program
          string productInput = Console.ReadLine();
          int productId;
 
+        if (!int.TryParse(productInput, out productId))
+        {
+            Console.WriteLine("Invalid input! Please enter a number.");
+            continue;
+        }
+
+        Product chosen = null;
+        foreach (Product p in menu)
+        {
+            if (p.Id == productId)
+            {
+                chosen = p;
+                break;
+            }
+        }
+        if (chosen == null)
+        {
+            Console.WriteLine("Product not found!");
+            continue;
+        }
+
+        if (chosen.RemainingStock == 0)
+        {
+            Console.WriteLine("Sorry, this product is out of stock!");
+            continue;
+        }
+        
+
 
         
 
