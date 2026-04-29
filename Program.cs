@@ -157,15 +157,6 @@ class Program
                 }
             }
 
-            if (!found)
-            {
-                cartProducts[cartCount] = chosen;
-                cartQuantities[cartCount] = quantity;
-                cartSubtotals[cartCount] = chosen.GetItemTotal(quantity);
-                cartCount++;
-                Console.WriteLine($"{chosen.Name} added to cart!");
-            }
-
             chosen.DeductStock(quantity);
 
             Console.Write("\nAdd another item? (Y/N): ");
