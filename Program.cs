@@ -76,98 +76,179 @@ class Order
 }
 
 class Program
-
 {
+    static int receiptCounter = 1;
+    static Order[] orderHistory = new Order[100];
+    static int orderCount = 0;
+
     static void Main(string[] args)
     {
-               Product[] menu = {
-            new Product(1,"Infinix",4500.00,50),
-            new Product(2,"Oppo",5500.00,30),
-            new Product(3,"Vivo",6000.00,20),
-            new Product(4,"Samsung",10000.00,15),
-            new Product(5,"Apple",20000.00,10)
+        Product[] menu = {
+            new Product(1, "Infinix",  "Electronics", 4500.00,  50),
+            new Product(2, "Oppo",     "Electronics", 5500.00,  30),
+            new Product(3, "Banana",   "Food",        25.00,    75),
+            new Product(4, "Apple",    "Food",        30.00,    85),
+            new Product(5, "T-Shirt",  "Clothing",    500.00,   67),
+            new Product(6, "Pants",    "Clothing",    750.00,   76),
         };
 
-        Product[] cartProducts = new Product[10];
-        int[] cartQuantities = new int[10];
-        double[] cartSubtotals = new double[10];
+        CartItem[] cart = new CartItem[10];
         int cartCount = 0;
 
-        string addMore = "Y";
+        bool running = true;
 
-        while (addMore.ToUpper() == "Y")
+        while (running)
         {
-            Console.WriteLine("===== STORE MENU =====");
+            Console.WriteLine("\n===== MAIN MENU ======");
             Console.WriteLine();
-            foreach (Product p in menu)
-            {
-                if (p.RemainingStock == 0)
-                    Console.WriteLine($"[{p.Id}] {p.Name} - OUT OF STOCK");
-                else
-                    p.DisplayProduct();
-            }
+            Console.WriteLine("[1] Browse All Products");
+            Console.WriteLine("[2] Search Product by Name");
+            Console.WriteLine("[3] Filter by Category");
+            Console.WriteLine("[4] View / Manage Cart");
+            Console.WriteLine("[5] View Order History");
+            Console.WriteLine("[6] Exit");
+            Console.Write("Choose an option: ");
 
-            Console.Write("\nEnter product number: ");
-            string productInput = Console.ReadLine();
-            int productId;
+            string choice = Console.ReadLine();
+            Console.WriteLine();
 
-            if (!int.TryParse(productInput, out productId))
+            switch (choice)
             {
-                Console.WriteLine("Invalid input! Please enter a number.");
-                continue;
-            }
-
-            Product chosen = null;
-            foreach (Product p in menu)
-            {
-                if (p.Id == productId)
-                {
-                    chosen = p;
+                case "1":
+                    ShowAllProducts(menu);
+                    AddToCart(menu, cart, ref cartCount);
                     break;
-                }
+                case "2":
+                    SearchProduct(menu);
+                    AddToCart(menu, cart, ref cartCount);
+                    break;
+                case "3":
+                    FilterByCategory(menu);
+                    AddToCart(menu, cart, ref cartCount);
+                    break;
+                case "4":
+                    CartMenu(cart, ref cartCount, menu);
+                    break;
+                case "5":
+                    ShowOrderHistory();
+                    break;
+                case "6":
+                    running = false;
+                    Console.WriteLine("Thank you for visiting! Goodbye!");
+                    break;
+                default:
+                    Console.WriteLine("Invalid option. Please enter 1 to 6 only.");
+                    break;
             }
+        }
+    }
 
-            if (chosen == null)
+        static void ShowAllProducts(Product[] menu)
+    {
+        Console.WriteLine("===== STORE MENU =====");
+        Console.WriteLine();
+        foreach (Product p in menu)
+        {
+            if (p.RemainingStock == 0)
+                Console.WriteLine($"[{p.Id}] {p.Name} - OUT OF STOCK");
+            else
+                p.DisplayProduct();
+        }
+    }
+
+    static void SearchProduct(Product[] menu)
+    {
+        Console.Write("Enter product name to search: ");
+        string keyword = Console.ReadLine().ToLower();
+        bool found = false;
+
+        Console.WriteLine("\n----- Search Results -----");
+        Console.WriteLine();
+        foreach (Product p in menu)
+        {
+            if (p.Name.ToLower().Contains(keyword))
             {
-                Console.WriteLine();
-                Console.WriteLine("Product not found!");
-                Console.WriteLine();
-                continue;
+                p.DisplayProduct();
+                found = true;
             }
+        }
 
-            if (chosen.RemainingStock == 0)
+        if (!found)
+            Console.WriteLine("No products found.");
+    }
+    
+    static void FilterByCategory(Product[] menu)
+    {
+        Console.WriteLine("--- Select Category ---");
+        Console.WriteLine("[1] Food");
+        Console.WriteLine("[2] Electronics");
+        Console.WriteLine("[3] Clothing");
+        Console.WriteLine();
+        Console.Write("Choose category: ");
+
+        string input = Console.ReadLine();
+        string category = "";
+
+        if (input == "1") category = "Food";
+        else if (input == "2") category = "Electronics";
+        else if (input == "3") category = "Clothing";
+        else { Console.WriteLine("Invalid category."); return; }
+
+        Console.WriteLine($"\n--- {category} Products ---");
+        bool found = false;
+
+        foreach (Product p in menu)
+        {
+            if (p.Category == category)
             {
-                Console.WriteLine("Sorry, this product is out of stock!");
-                Console.WriteLine();
-                continue;
+                p.DisplayProduct();
+                found = true;
             }
+        }
 
-            Console.Write("Enter quantity: ");
-            string quantityInput = Console.ReadLine();
-            int quantity;
+        if (!found)
+            Console.WriteLine();
+        Console.WriteLine("No products in this category.");
+    }
 
-            if (!int.TryParse(quantityInput, out quantity) || quantity <= 0)
-            {
-                Console.WriteLine("Invalid quantity!");
-                Console.WriteLine();
-                continue;
-            }
+    static void AddToCart(Product[] menu, CartItem[] cart, ref int cartCount)
+    {
+        Console.Write("\nEnter product number to add to cart (0 to go back): ");
+        string input = Console.ReadLine();
+        int productId;
 
-            if (!chosen.HasEnoughStock(quantity))
-            {
-                Console.WriteLine();
-                Console.WriteLine($"Not enough stock! Only {chosen.RemainingStock} left.");
-                Console.WriteLine();
-                continue;
-            }
+        if (!int.TryParse(input, out productId) || productId == 0)
+            return;
 
-            if (cartCount == 10)
-            {
-                Console.WriteLine();
-                Console.WriteLine("Cart is full!");
-                Console.WriteLine();
-                continue;
-            }
+        Product chosen = null;
+        foreach (Product p in menu)
+        {
+            if (p.Id == productId) { chosen = p; break; }
+        }
+
+        if (chosen == null) { Console.WriteLine("Product not found!"); return; }
+        if (chosen.RemainingStock == 0) { Console.WriteLine("Sorry, this product is out of stock!"); return; }
+
+        Console.Write("Enter quantity: ");
+        string qInput = Console.ReadLine();
+        Console.WriteLine();
+        int quantity;
+
+        if (!int.TryParse(qInput, out quantity) || quantity <= 0)
+        {
+            Console.WriteLine("Invalid quantity!");
+            return;
+        }
+
+        if (!chosen.HasEnoughStock(quantity))
+        {
+            Console.WriteLine();
+            Console.WriteLine($"Not enough stock! Only {chosen.RemainingStock} left.");
+            return;
+        }
+
+        if (cartCount == 10) { Console.WriteLine("Cart is full!"); return; }
+        
 
             bool found = false;
             for (int i = 0; i < cartCount; i++)
