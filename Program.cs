@@ -1,51 +1,79 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
+namespace HelloWorld;
 
-namespace ConsoleApp5
+class Product
 {
-    public class Product
+    public int Id;
+    public string Name;
+    public string Category;
+    public double Price;
+    public int RemainingStock;
 
+    public Product(int id, string name, string category, double price, int stock)
     {
-        public int Id;
-        public string Name;
-        public double Price;
-        public int RemainingStock;
+        Id = id;
+        Name = name;
+        Category = category;
+        Price = price;
+        RemainingStock = stock;
+    }
 
-        public Product(int id, string name, double price, int stock)
-        {
-            Id = id;
-            Name = name;
-            Price = price;
-            RemainingStock = stock;
-        }
+    public void DisplayProduct()
+    {
+        Console.WriteLine("[Id: " + Id + "]");
+        Console.WriteLine("[Name: " + Name + "]");
+        Console.WriteLine("[Price: ₱" + Price + "]");
+        Console.WriteLine("[RemainingStock: " + RemainingStock + "]");
+        Console.WriteLine();
+    }
 
-        public void DisplayProduct()
-        {
-            Console.WriteLine("[Id: " + Id + "]");
-            Console.WriteLine("[Name: " + Name + "]");
-            Console.WriteLine("[Price: ₱" + Price + "]");
-            Console.WriteLine("[RemainingStock: " + RemainingStock + "]");
-            Console.WriteLine();
-        }
+    public double GetItemTotal(int quantity)
+    {
+        return Price * quantity;
+    }
 
-        public double GetItemTotal(int quantity)
-        {
-            return Price * quantity;
-        }
+    public bool HasEnoughStock(int quantity)
+    {
+        return RemainingStock >= quantity;
+    }
 
-        public bool HasEnoughStock(int quantity)
-        {
-            return RemainingStock >= quantity;
-        }
+    public void DeductStock(int quantity)
+    {
+        RemainingStock -= quantity;
+    }
 
-        public void DeductStock(int quantity)
-        {
-            RemainingStock -= quantity;
-        }
+    public void RestoreStock(int quantity)
+    {
+        RemainingStock += quantity;
     }
 }
 
+class CartItem
+{
+    public Product Product;
+    public int Quantity;
+    public double Subtotal;
+
+    public CartItem(Product product, int quantity)
+    {
+        Product = product;
+        Quantity = quantity;
+        Subtotal = product.GetItemTotal(quantity);
+    }
+}
+
+class Order
+{
+    public int ReceiptNumber;
+    public DateTime DateTime;
+    public CartItem[] Items;
+    public int ItemCount;
+    public double GrandTotal;
+    public double Discount;
+    public double FinalTotal;
+    public double Payment;
+    public double Change;
+}
 
 class Program
 
