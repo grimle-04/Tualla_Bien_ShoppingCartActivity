@@ -1,54 +1,51 @@
 using System;
-
-using System.Linq;
-
 using System.Collections.Generic;
+using System.Text;
 
-
-
-namespace HelloWorld;
-
-
-
-class Product
+namespace ConsoleApp5
 {
-    public int Id;
-    public string Name;
-    public double Price;
-    public int RemainingStock;
+    public class Product
 
-    public Product(int id, string name, double price, int stock)
     {
-        Id = id;
-        Name = name;
-        Price = price;
-        RemainingStock = stock;
-    }
+        public int Id;
+        public string Name;
+        public double Price;
+        public int RemainingStock;
 
-    public void DisplayProduct()
-    {
-        Console.WriteLine("[Id: " + Id + "]");
-        Console.WriteLine("[Name: " + Name + "]");
-        Console.WriteLine("[Price: ₱" + Price + "]");
-        Console.WriteLine("[RemainingStock: " + RemainingStock + "]");
-        Console.WriteLine();
-    }
+        public Product(int id, string name, double price, int stock)
+        {
+            Id = id;
+            Name = name;
+            Price = price;
+            RemainingStock = stock;
+        }
 
-    public double GetItemTotal(int quantity)
-    {
-        return Price * quantity;
-    }
+        public void DisplayProduct()
+        {
+            Console.WriteLine("[Id: " + Id + "]");
+            Console.WriteLine("[Name: " + Name + "]");
+            Console.WriteLine("[Price: ₱" + Price + "]");
+            Console.WriteLine("[RemainingStock: " + RemainingStock + "]");
+            Console.WriteLine();
+        }
 
-    public bool HasEnoughStock(int quantity)
-    {
-        return RemainingStock >= quantity;
-    }
+        public double GetItemTotal(int quantity)
+        {
+            return Price * quantity;
+        }
 
-    public void DeductStock(int quantity)
-    {
-        RemainingStock -= quantity;
+        public bool HasEnoughStock(int quantity)
+        {
+            return RemainingStock >= quantity;
+        }
+
+        public void DeductStock(int quantity)
+        {
+            RemainingStock -= quantity;
+        }
     }
 }
+
 
 class Program
 
