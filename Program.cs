@@ -55,7 +55,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        Product[] menu = {
+               Product[] menu = {
             new Product(1,"Infinix",4500.00,50),
             new Product(2,"Oppo",5500.00,30),
             new Product(3,"Vivo",6000.00,20),
@@ -206,3 +206,4 @@ class Program
 
     }
 }
+
