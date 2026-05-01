@@ -179,7 +179,7 @@ class Program
     
     static void FilterByCategory(Product[] menu)
     {
-        Console.WriteLine("--- Select Category ---");
+        Console.WriteLine("----- Select Category -----");
         Console.WriteLine("[1] Food");
         Console.WriteLine("[2] Electronics");
         Console.WriteLine("[3] Clothing");
@@ -550,12 +550,21 @@ class Program
             Console.WriteLine("All products have sufficient stock.");
     } 
 
-        Console.WriteLine("\n===== UPDATED STOCK =====");
-        foreach (Product p in menu)
+        static void ShowOrderHistory()
+    {
+        if (orderCount == 0)
         {
-            p.DisplayProduct();
+            Console.WriteLine("No order history yet.");
+            return;
         }
 
-    }
-}
+        Console.WriteLine("===== ORDER HISTORY =====");
 
+        for (int i = 0; i < orderCount; i++)
+        {
+            Order o = orderHistory[i];
+            Console.WriteLine($"Receipt #{o.ReceiptNumber.ToString("D4")} | " +
+                              $"{o.DateTime:MM/dd/yyyy hh:mm tt} | " +
+                              $"Final Total: ₱{o.FinalTotal:F2}");
+        }
+        }
