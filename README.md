@@ -8,7 +8,7 @@ AI Usage Section
 
 AI Used: Claude & BlackBox AI
 
-Prompt or Quetions Asked to AI:
+Prompts or Quetions Asked to AI:
 1. Based on the PDF, guide me in this quiz in Programming. This will be the part 2 of the like Cart Shopping System I talked about a few weeks ago. In the part 2, we should enhance or make the part 1 better based on the requirements in this PDF.
 2. Find the errors in this part of my code.
 3. Is it possible to put real-life time and date in every output in your code?
