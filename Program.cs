@@ -344,8 +344,92 @@ class Program
 
         Console.WriteLine($"\nGrand Total: ₱{total:F2}");
     }
-    
 
+    static void RemoveFromCart(CartItem[] cart, ref int cartCount)
+    {
+        if (cartCount == 0) { Console.WriteLine("Cart is empty."); return; }
+
+        ViewCart(cart, cartCount);
+        Console.Write("\nEnter item number to remove: ");
+        string input = Console.ReadLine();
+        int index;
+
+        if (!int.TryParse(input, out index) || index < 1 || index > cartCount)
+        {
+            Console.WriteLine("Invalid item number.");
+            return;
+        }
+
+        index--;
+
+        cart[index].Product.RestoreStock(cart[index].Quantity);
+        Console.WriteLine($"{cart[index].Product.Name} removed from cart.");
+
+        for (int i = index; i < cartCount - 1; i++)
+            cart[i] = cart[i + 1];
+
+        cart[cartCount - 1] = null;
+        cartCount--;
+    }
+
+    static void UpdateQuantity(CartItem[] cart, int cartCount)
+    {
+        if (cartCount == 0) { Console.WriteLine("Cart is empty."); return; }
+
+        ViewCart(cart, cartCount);
+        Console.Write("\nEnter item number to update: ");
+        string input = Console.ReadLine();
+        int index;
+
+        if (!int.TryParse(input, out index) || index < 1 || index > cartCount)
+        {
+            Console.WriteLine("Invalid item number.");
+            return;
+        }
+
+        index--;
+
+        Console.Write($"Enter new quantity (current: {cart[index].Quantity}): ");
+        string qInput = Console.ReadLine();
+        int newQty;
+
+        if (!int.TryParse(qInput, out newQty) || newQty <= 0)
+        {
+            Console.WriteLine("Invalid quantity.");
+            return;
+        }
+
+        int oldQty = cart[index].Quantity;
+
+        cart[index].Product.RestoreStock(oldQty);
+
+        if (!cart[index].Product.HasEnoughStock(newQty))
+        {
+            Console.WriteLine($"Not enough stock! Only {cart[index].Product.RemainingStock} available.");
+            cart[index].Product.DeductStock(oldQty);
+            return;
+        }
+
+        cart[index].Product.DeductStock(newQty);
+        cart[index].Quantity = newQty;
+        cart[index].Subtotal = cart[index].Product.GetItemTotal(newQty);
+        Console.WriteLine("Quantity updated successfully!");
+    }
+
+        static void ClearCart(CartItem[] cart, ref int cartCount)
+        {
+        if (cartCount == 0) { Console.WriteLine("Cart is already empty."); return; }
+
+        for (int i = 0; i < cartCount; i++)
+            cart[i].Product.RestoreStock(cart[i].Quantity);
+
+        for (int i = 0; i < cartCount; i++)
+            cart[i] = null;
+
+        cartCount = 0;
+        Console.WriteLine("Cart has been cleared.");
+        }
+    
         Console.WriteLine("\n===== RECEIPT =====");
         Console.WriteLine("\nThanks for buying!");
         Console.WriteLine();
