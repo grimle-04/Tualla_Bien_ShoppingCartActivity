@@ -474,34 +474,81 @@ class Program
         double change = payment - finalTotal;
         string receiptNo = receiptCounter.ToString("D4");
         DateTime now = DateTime.Now;
-    
-        Console.WriteLine("\n===== RECEIPT =====");
-        Console.WriteLine("\nThanks for buying!");
+
+        Console.WriteLine("\n ========================================");
+        Console.WriteLine("|               RECEIPT                  |");
+        Console.WriteLine(" ========================================");
         Console.WriteLine();
-        double grandTotal = 0;
+        Console.WriteLine($" Receipt No : {receiptNo}");
+        Console.WriteLine($" Date       : {now:MMMM dd, yyyy hh:mm tt}");
+        Console.WriteLine(" ----------------------------------------");
 
         for (int i = 0; i < cartCount; i++)
+            Console.WriteLine($" {cart[i].Product.Name,-15} x{cart[i].Quantity,-5} ₱{cart[i].Subtotal:F2}");
+
+        Console.WriteLine(" ----------------------------------------");
+        Console.WriteLine($" Grand Total  : ₱{grandTotal:F2}");
+
+        if (discount > 0)
+            Console.WriteLine($" Discount 10% : -₱{discount:F2}");
+
+        Console.WriteLine($" Final Total  : ₱{finalTotal:F2}");
+        Console.WriteLine($" Payment      : ₱{payment:F2}");
+        Console.WriteLine($" Change       : ₱{change:F2}");
+        Console.WriteLine(" ========================================");
+
+        Order order = new Order();
+        order.ReceiptNumber = receiptCounter;
+        order.DateTime = now;
+        order.Items = new CartItem[cartCount];
+        order.ItemCount = cartCount;
+
+        for (int i = 0; i < cartCount; i++)
+            order.Items[i] = cart[i];
+
+        order.GrandTotal = grandTotal;
+        order.Discount = discount;
+        order.FinalTotal = finalTotal;
+        order.Payment = payment;
+        order.Change = change;
+
+        orderHistory[orderCount] = order;
+        orderCount++;
+        receiptCounter++;
+
+        ShowLowStockAlert(menu);
+
+        for (int i = 0; i < cartCount; i++)
+            cart[i] = null;
+        cartCount = 0;
+
+        return true;
+    }
+
+    static void ShowLowStockAlert(Product[] menu)
+    {
+        bool hasAlert = false;
+
+        Console.WriteLine("\n===== LOW STOCK ALERT =====");
+        Cosnole.WriteLine();
+
+        foreach (Product p in menu)
         {
-            Console.WriteLine($"{cartProducts[i].Name} x{cartQuantities[i]} = ₱{cartSubtotals[i]:F2}");
-            grandTotal += cartSubtotals[i];
+            if (p.RemainingStock == 0)
+            {
+                Console.WriteLine($"[OUT OF STOCK] {p.Name}");
+                hasAlert = true;
+            }
+            else if (p.RemainingStock <= 5)
+            {
+                Console.WriteLine($"[LOW STOCK] {p.Name} has only {p.RemainingStock} stock(s) left!");
+                hasAlert = true;
+            }
         }
 
-        Console.WriteLine($"\nGrand Total: ₱{grandTotal:F2}");
-
-        double finalTotal = grandTotal;
-
-        if (grandTotal >= 5000)
-        {
-            double discount = grandTotal * 0.10;
-            finalTotal = grandTotal - discount;
-            Console.WriteLine();
-            Console.WriteLine("You have 10% discount on your overall purchase!");
-            Console.WriteLine();
-            Console.WriteLine($"Discount (10%): -₱{discount:F2}");
-        }
-
-        Console.WriteLine();
-        Console.WriteLine($"Final Total: ₱{finalTotal:F2}");
+        if (!hasAlert)
+            Console.WriteLine("All products have sufficient stock.");
+    } 
 
         Console.WriteLine("\n===== UPDATED STOCK =====");
         foreach (Product p in menu)
