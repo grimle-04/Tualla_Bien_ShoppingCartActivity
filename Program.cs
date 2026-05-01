@@ -1,58 +1,52 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
+namespace HelloWorld;
 
-namespace ConsoleApp5
+class Product
 {
-    public class Product
+    public int Id;
+    public string Name;
+    public double Price;
+    public int RemainingStock;
 
+    public Product(int id, string name, double price, int stock)
     {
-        public int Id;
-        public string Name;
-        public double Price;
-        public int RemainingStock;
+        Id = id;
+        Name = name;
+        Price = price;
+        RemainingStock = stock;
+    }
 
-        public Product(int id, string name, double price, int stock)
-        {
-            Id = id;
-            Name = name;
-            Price = price;
-            RemainingStock = stock;
-        }
+    public void DisplayProduct()
+    {
+        Console.WriteLine("[Id: " + Id + "]");
+        Console.WriteLine("[Name: " + Name + "]");
+        Console.WriteLine("[Price: ₱" + Price + "]");
+        Console.WriteLine("[RemainingStock: " + RemainingStock + "]");
+        Console.WriteLine();
+    }
 
-        public void DisplayProduct()
-        {
-            Console.WriteLine("[Id: " + Id + "]");
-            Console.WriteLine("[Name: " + Name + "]");
-            Console.WriteLine("[Price: ₱" + Price + "]");
-            Console.WriteLine("[RemainingStock: " + RemainingStock + "]");
-            Console.WriteLine();
-        }
+    public double GetItemTotal(int quantity)
+    {
+        return Price * quantity;
+    }
 
-        public double GetItemTotal(int quantity)
-        {
-            return Price * quantity;
-        }
+    public bool HasEnoughStock(int quantity)
+    {
+        return RemainingStock >= quantity;
+    }
 
-        public bool HasEnoughStock(int quantity)
-        {
-            return RemainingStock >= quantity;
-        }
-
-        public void DeductStock(int quantity)
-        {
-            RemainingStock -= quantity;
-        }
+    public void DeductStock(int quantity)
+    {
+        RemainingStock -= quantity;
     }
 }
-
 
 class Program
 
 {
     static void Main(string[] args)
     {
-               Product[] menu = {
+        Product[] menu = {
             new Product(1,"Infinix",4500.00,50),
             new Product(2,"Oppo",5500.00,30),
             new Product(3,"Vivo",6000.00,20),
@@ -203,4 +197,3 @@ class Program
 
     }
 }
-
