@@ -414,7 +414,7 @@ class Program
         cart[index].Quantity = newQty;
         cart[index].Subtotal = cart[index].Product.GetItemTotal(newQty);
         Console.WriteLine("Quantity updated successfully!");
-    }
+       }
 
         static void ClearCart(CartItem[] cart, ref int cartCount)
         {
@@ -429,6 +429,51 @@ class Program
         cartCount = 0;
         Console.WriteLine("Cart has been cleared.");
         }
+
+        static bool Checkout(CartItem[] cart, ref int cartCount, Product[] menu)
+    {
+        if (cartCount == 0)
+        {
+            Console.WriteLine("Your cart is empty! Add items before checking out.");
+            return false;
+        }
+
+        double grandTotal = 0;
+        for (int i = 0; i < cartCount; i++)
+            grandTotal += cart[i].Subtotal;
+
+        double discount = 0;
+        if (grandTotal >= 5000)
+            discount = grandTotal * 0.10;
+
+        double finalTotal = grandTotal - discount;
+
+        Console.WriteLine($"Final Total: ₱{finalTotal:F2}");
+
+        double payment = 0;
+        while (true)
+        {
+            Console.Write("Enter payment: ₱");
+            string pInput = Console.ReadLine();
+
+            if (!double.TryParse(pInput, out payment))
+            {
+                Console.WriteLine("Invalid input. Payment must be a number.");
+                continue;
+            }
+
+            if (payment < finalTotal)
+            {
+                Console.WriteLine("Insufficient payment. Please try again.");
+                continue;
+            }
+
+            break;
+        }
+
+        double change = payment - finalTotal;
+        string receiptNo = receiptCounter.ToString("D4");
+        DateTime now = DateTime.Now;
     
         Console.WriteLine("\n===== RECEIPT =====");
         Console.WriteLine("\nThanks for buying!");
