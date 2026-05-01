@@ -473,7 +473,7 @@ class Program
 
         double change = payment - finalTotal;
         string receiptNo = receiptCounter.ToString("D4");
-        DateTime now = DateTime.Now;
+        DateTime now = DateTime.Now; //pwede pala ito wow
 
         Console.WriteLine("\n ========================================");
         Console.WriteLine("|               RECEIPT                  |");
