@@ -194,7 +194,7 @@ class Program
         else if (input == "3") category = "Clothing";
         else { Console.WriteLine("Invalid category."); return; }
 
-        Console.WriteLine($"\n--- {category} Products ---");
+        Console.WriteLine($"\n----- {category} Products -----");
         bool found = false;
 
         foreach (Product p in menu)
@@ -208,8 +208,8 @@ class Program
 
         if (!found)
             Console.WriteLine();
-        Console.WriteLine("No products in this category.");
-    }
+            Console.WriteLine("No products in this category.");
+        }
 
     static void AddToCart(Product[] menu, CartItem[] cart, ref int cartCount)
     {
@@ -223,7 +223,8 @@ class Program
         Product chosen = null;
         foreach (Product p in menu)
         {
-            if (p.Id == productId) { chosen = p; break; }
+            if (p.Id == productId) { chosen = p; 
+            break; }
         }
 
         if (chosen == null) { Console.WriteLine("Product not found!"); return; }
@@ -247,34 +248,103 @@ class Program
             return;
         }
 
-        if (cartCount == 10) { Console.WriteLine("Cart is full!"); return; }
+        if (cartCount == 10) 
+        { Console.WriteLine("Cart is full!"); 
+         return; 
+        }
         
-
-            bool found = false;
-            for (int i = 0; i < cartCount; i++)
+        bool alreadyInCart = false;
+        for (int i = 0; i < cartCount; i++)
+        {
+            if (cart[i].Product.Id == chosen.Id)
             {
-                if (cartProducts[i].Id == chosen.Id)
-                {
-                    cartQuantities[i] += quantity;
-                    cartSubtotals[i] += chosen.GetItemTotal(quantity);
-                    found = true;
-                    Console.WriteLine($"{chosen.Name} updated in cart!");
-                    break;
-                }
-            }
-
-            chosen.DeductStock(quantity);
-
-            Console.Write("\nAdd another item? (Y/N): ");
-            addMore = Console.ReadLine().ToUpper();
-
-            while (addMore != "Y" && addMore != "N")
-            {
-                Console.WriteLine("Invalid input! Please enter Y or N only.");
-                Console.Write("Add another item? (Y/N): ");
-                addMore = Console.ReadLine().ToUpper();
+                cart[i].Quantity += quantity;
+                cart[i].Subtotal += chosen.GetItemTotal(quantity);
+                alreadyInCart = true;
+                Console.WriteLine($"{chosen.Name} quantity updated in cart!");
+                break;
             }
         }
+
+        if (!alreadyInCart)
+        {
+            cart[cartCount] = new CartItem(chosen, quantity);
+            cartCount++;
+            Console.WriteLine($"{chosen.Name} added to cart!");
+        }
+
+        chosen.DeductStock(quantity);
+    }
+
+    static void CartMenu(CartItem[] cart, ref int cartCount, Product[] menu)
+    {
+        bool inCartMenu = true;
+
+        while (inCartMenu)
+        {
+            Console.WriteLine("\n===== CART MENU =====");
+            Console.WriteLine();
+            Console.WriteLine("[1] View Cart");
+            Console.WriteLine("[2] Remove an Item");
+            Console.WriteLine("[3] Update Item Quantity");
+            Console.WriteLine("[4] Clear Cart");
+            Console.WriteLine("[5] Checkout");
+            Console.WriteLine("[6] Back to Main Menu");
+            Console.WriteLine();
+            Console.Write("Choose an option: ");
+
+            string choice = Console.ReadLine();
+            Console.WriteLine();
+
+            switch (choice)
+            {
+                case "1":
+                    ViewCart(cart, cartCount);
+                    break;
+                case "2":
+                    RemoveFromCart(cart, ref cartCount);
+                    break;
+                case "3":
+                    UpdateQuantity(cart, cartCount);
+                    break;
+                case "4":
+                    ClearCart(cart, ref cartCount);
+                    break;
+                case "5":
+                    bool checkoutDone = Checkout(cart, ref cartCount, menu);
+                    if (checkoutDone) inCartMenu = false;
+                    break;
+                case "6":
+                    inCartMenu = false;
+                    break;
+                default:
+                    Console.WriteLine("Invalid option. Please enter 1 to 6 only.");
+                    break;
+            }
+        }
+    }
+
+    static void ViewCart(CartItem[] cart, int cartCount)
+    {
+        if (cartCount == 0)
+        {
+            Console.WriteLine("Your cart is empty.");
+            return;
+        }
+
+        Console.WriteLine("===== YOUR CART =====");
+        Console.WriteLine();
+        double total = 0;
+
+        for (int i = 0; i < cartCount; i++)
+        {
+            Console.WriteLine($"[{i + 1}] {cart[i].Product.Name} x{cart[i].Quantity} = ₱{cart[i].Subtotal:F2}");
+            total += cart[i].Subtotal;
+        }
+
+        Console.WriteLine($"\nGrand Total: ₱{total:F2}");
+    }
+    
 
         Console.WriteLine("\n===== RECEIPT =====");
         Console.WriteLine("\nThanks for buying!");
