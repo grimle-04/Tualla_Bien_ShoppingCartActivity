@@ -107,6 +107,7 @@ class Program
             Console.WriteLine("[4] View / Manage Cart");
             Console.WriteLine("[5] View Order History");
             Console.WriteLine("[6] Exit");
+            Console.WriteLine();
             Console.Write("Choose an option: ");
 
             string choice = Console.ReadLine();
@@ -143,7 +144,7 @@ class Program
         }
     }
 
-        static void ShowAllProducts(Product[] menu)
+    static void ShowAllProducts(Product[] menu)
     {
         Console.WriteLine("===== STORE MENU =====");
         Console.WriteLine();
@@ -176,10 +177,11 @@ class Program
         if (!found)
             Console.WriteLine("No products found.");
     }
-    
+
     static void FilterByCategory(Product[] menu)
     {
         Console.WriteLine("----- Select Category -----");
+        Console.WriteLine();
         Console.WriteLine("[1] Food");
         Console.WriteLine("[2] Electronics");
         Console.WriteLine("[3] Clothing");
@@ -208,8 +210,8 @@ class Program
 
         if (!found)
             Console.WriteLine();
-            Console.WriteLine("No products in this category.");
-        }
+        Console.WriteLine("No products in this category.");
+    }
 
     static void AddToCart(Product[] menu, CartItem[] cart, ref int cartCount)
     {
@@ -223,8 +225,11 @@ class Program
         Product chosen = null;
         foreach (Product p in menu)
         {
-            if (p.Id == productId) { chosen = p; 
-            break; }
+            if (p.Id == productId)
+            {
+                chosen = p;
+                break;
+            }
         }
 
         if (chosen == null) { Console.WriteLine("Product not found!"); return; }
@@ -248,11 +253,12 @@ class Program
             return;
         }
 
-        if (cartCount == 10) 
-        { Console.WriteLine("Cart is full!"); 
-         return; 
+        if (cartCount == 10)
+        {
+            Console.WriteLine("Cart is full!");
+            return;
         }
-        
+
         bool alreadyInCart = false;
         for (int i = 0; i < cartCount; i++)
         {
@@ -414,10 +420,10 @@ class Program
         cart[index].Quantity = newQty;
         cart[index].Subtotal = cart[index].Product.GetItemTotal(newQty);
         Console.WriteLine("Quantity updated successfully!");
-       }
+    }
 
-        static void ClearCart(CartItem[] cart, ref int cartCount)
-        {
+    static void ClearCart(CartItem[] cart, ref int cartCount)
+    {
         if (cartCount == 0) { Console.WriteLine("Cart is already empty."); return; }
 
         for (int i = 0; i < cartCount; i++)
@@ -428,9 +434,9 @@ class Program
 
         cartCount = 0;
         Console.WriteLine("Cart has been cleared.");
-        }
+    }
 
-        static bool Checkout(CartItem[] cart, ref int cartCount, Product[] menu)
+    static bool Checkout(CartItem[] cart, ref int cartCount, Product[] menu)
     {
         if (cartCount == 0)
         {
@@ -530,7 +536,7 @@ class Program
         bool hasAlert = false;
 
         Console.WriteLine("\n===== LOW STOCK ALERT =====");
-        Cosnole.WriteLine();
+        Console.WriteLine();
 
         foreach (Product p in menu)
         {
@@ -548,9 +554,9 @@ class Program
 
         if (!hasAlert)
             Console.WriteLine("All products have sufficient stock.");
-    } 
+    }
 
-        static void ShowOrderHistory()
+    static void ShowOrderHistory()
     {
         if (orderCount == 0)
         {
@@ -559,6 +565,7 @@ class Program
         }
 
         Console.WriteLine("===== ORDER HISTORY =====");
+        Console.WriteLine();
 
         for (int i = 0; i < orderCount; i++)
         {
@@ -567,4 +574,5 @@ class Program
                               $"{o.DateTime:MM/dd/yyyy hh:mm tt} | " +
                               $"Final Total: ₱{o.FinalTotal:F2}");
         }
-        }
+    }
+}
