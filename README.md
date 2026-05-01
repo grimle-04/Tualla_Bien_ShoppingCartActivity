@@ -2,7 +2,7 @@
 
 This activity is about making a simple shopping program using C#. In the Part 1, it could only add items to the cart but had no way to remove, update, or clear them. It also had no payment system, so the program never asked how much money the customer paid. There was no receipt number or date, and the receipt only showed the total without any order record. Part 1 also had no way to track previous transactions once the program moved on.
 
-Part 2 now has a full Main Menu where users can browse, search, filter by category, manage their cart, and view order history all in one place. The cart management lets users view, remove, update quantity, clear, or checkout their items, and the checkout process validates payment, computes the change, and prints a complete receipt with a number and date. After every checkout, the program automatically shows a low stock alert for products running low and saves the transaction to an order history that the user can review anytime.
+The Part 2 now has a full Main Menu where users can browse, search, filter by category, manage their cart, and view order history all in one place. The cart management lets users view, remove, update quantity, clear, or checkout their items, and the checkout process validates payment, computes the change, and prints a complete receipt with a number and date. After every checkout, the program automatically shows a low stock alert for products running low and saves the transaction to an order history that the user can review anytime.
 
 AI Usage Section
 
