@@ -6,13 +6,10 @@ The Part 2 now has a full Main Menu where users can browse, search, filter by ca
 
 AI Usage Section
 
-AI Used: Claude & BlackBox AI
+AI Used: Claude AI
 
-Prompts or Quetions Asked to AI:
-1. Based on the PDF, guide me in this quiz in Programming. This will be the part 2 of the like Cart Shopping System I talked about a few weeks ago. In the part 2, we should enhance or make the part 1 better based on the requirements in this PDF.
-2. Find the errors in this part of my code.
-3. Is it possible to put real-life time and date in every output in your code?
-4. Make this well-formatted but don't change or replace any of my code, just the format.
-5. Double-check my overall code and tell me any suggestions.
+Prompts or Questions Asked to AI:
+1. Here's my code, guide me on how I put getters and setters in it.
+2. In this code, fix all of the bugs and errors. Don't change everything, just fix some errors and bugs.
 
-I used AI to help me understand the Part 2 requirements and guide me on how to properly enhance my Part 1 code based on what was asked. I also asked AI to find errors in specific parts of my code so I could correct them before finalizing. Since I was unsure how to display real-time date and time in the receipt, I asked AI if it was possible and how to implement it. I used AI to reformat my code for better readability without changing any of my existing logic. Finally, I asked AI to double-check my overall code and give suggestions to make sure everything was working correctly and nothing was missing.
+I asked AI to guide me on how to add getters and setters to my code, so it helped me change all the public fields in the Product, CartItem, and Order classes into private fields with proper properties that also check for invalid values like negative numbers. I also asked AI to find and fix the bugs in my code without changing anything else, and it found problems like the duplicate class Program, the missing Category field, missing RestoreStock method, and the missing CartItem and Order classes. AI was only used to fix errors and add getters and setters, while the main logic and overall code were still made by me.
