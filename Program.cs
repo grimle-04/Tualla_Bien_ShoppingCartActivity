@@ -5,13 +5,15 @@ class Product
 {
     public int Id;
     public string Name;
+    public string Category;
     public double Price;
     public int RemainingStock;
 
-    public Product(int id, string name, double price, int stock)
+    public Product(int id, string name, string category, double price, int stock)
     {
         Id = id;
         Name = name;
+        Category = category;
         Price = price;
         RemainingStock = stock;
     }
@@ -39,9 +41,39 @@ class Product
     {
         RemainingStock -= quantity;
     }
+    
+    public void RestoreStock(int quantity)
+    {
+        RemainingStock += quantity;
+    }
 }
 
-class Program
+class CartItem
+{
+    public Product Product;
+    public int Quantity;
+    public double Subtotal;
+
+    public CartItem(Product product, int quantity)
+    {
+        Product = product;
+        Quantity = quantity;
+        Subtotal = product.GetItemTotal(quantity);
+    }
+}
+
+class Order
+{
+    public int ReceiptNumber;
+    public DateTime DateTime;
+    public CartItem[] Items;
+    public int ItemCount;
+    public double GrandTotal;
+    public double Discount;
+    public double FinalTotal;
+    public double Payment;
+    public double Change;
+}
 
 class Program
 {
@@ -57,8 +89,8 @@ class Program
             new Product(3, "Banana",   "Food",        25.00,    75),
             new Product(4, "Apple",    "Food",        30.00,    85),
             new Product(5, "T-Shirt",  "Clothing",    500.00,   67),
-            new Product(6, "Pants",    "Clothing",    750.00,   76),   
-    };
+            new Product(6, "Pants",    "Clothing",    750.00,   76),
+        };
 
         CartItem[] cart = new CartItem[10];
         int cartCount = 0;
@@ -177,8 +209,10 @@ class Program
         }
 
         if (!found)
+        {
             Console.WriteLine();
-        Console.WriteLine("No products in this category.");
+            Console.WriteLine("No products in this category.");
+        }
     }
 
     static void AddToCart(Product[] menu, CartItem[] cart, ref int cartCount)
