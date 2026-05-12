@@ -5,15 +5,13 @@ class Product
 {
     public int Id;
     public string Name;
-    public string Category;
     public double Price;
     public int RemainingStock;
 
-    public Product(int id, string name, string category, double price, int stock)
+    public Product(int id, string name, double price, int stock)
     {
         Id = id;
         Name = name;
-        Category = category;
         Price = price;
         RemainingStock = stock;
     }
@@ -41,39 +39,9 @@ class Product
     {
         RemainingStock -= quantity;
     }
-
-    public void RestoreStock(int quantity)
-    {
-        RemainingStock += quantity;
-    }
 }
 
-class CartItem
-{
-    public Product Product;
-    public int Quantity;
-    public double Subtotal;
-
-    public CartItem(Product product, int quantity)
-    {
-        Product = product;
-        Quantity = quantity;
-        Subtotal = product.GetItemTotal(quantity);
-    }
-}
-
-class Order
-{
-    public int ReceiptNumber;
-    public DateTime DateTime;
-    public CartItem[] Items;
-    public int ItemCount;
-    public double GrandTotal;
-    public double Discount;
-    public double FinalTotal;
-    public double Payment;
-    public double Change;
-}
+class Program
 
 class Program
 {
@@ -90,6 +58,11 @@ class Program
             new Product(4, "Apple",    "Food",        30.00,    85),
             new Product(5, "T-Shirt",  "Clothing",    500.00,   67),
             new Product(6, "Pants",    "Clothing",    750.00,   76),
+            new Product(1,"Infinix",4500.00,50),
+            new Product(2,"Oppo",5500.00,30),
+            new Product(3,"Vivo",6000.00,20),
+            new Product(4,"Samsung",10000.00,15),
+            new Product(5,"Apple",20000.00,10)
         };
 
         CartItem[] cart = new CartItem[10];
