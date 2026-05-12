@@ -3,15 +3,59 @@ namespace HelloWorld;
 
 class Product
 {
-    public int Id;
-    public string Name;
-    public double Price;
-    public int RemainingStock;
+    private int _id;
+    private string _name;
+    private string _category;
+    private double _price;
+    private int _remainingStock;
 
-    public Product(int id, string name, double price, int stock)
+    public int Id
+    {
+        get { return _id; }
+        set { _id = value; }
+    }
+
+    public string Name
+    {
+        get { return _name; }
+        set { _name = value; }
+    }
+
+    public string Category
+    {
+        get { return _category; }
+        set { _category = value; }
+    }
+
+    public double Price
+    {
+        get { return _price; }
+        set
+        {
+            if (value < 0)
+                Console.WriteLine("Price cannot be negative.");
+            else
+                _price = value;
+        }
+    }
+
+    public int RemainingStock
+    {
+        get { return _remainingStock; }
+        set
+        {
+            if (value < 0)
+                Console.WriteLine("Stock cannot be negative.");
+            else
+                _remainingStock = value;
+        }
+    }
+
+    public Product(int id, string name, string category, double price, int stock)
     {
         Id = id;
         Name = name;
+        Category = category;
         Price = price;
         RemainingStock = stock;
     }
@@ -39,9 +83,123 @@ class Product
     {
         RemainingStock -= quantity;
     }
+
+    public void RestoreStock(int quantity)
+    {
+        RemainingStock += quantity;
+    }
 }
 
-class Program
+class CartItem
+{
+    private Product _product;
+    private int _quantity;
+    private double _subtotal;
+
+    public Product Product
+    {
+        get { return _product; }
+        set { _product = value; }
+    }
+
+    public int Quantity
+    {
+        get { return _quantity; }
+        set
+        {
+            if (value < 0)
+                Console.WriteLine("Quantity cannot be negative.");
+            else
+                _quantity = value;
+        }
+    }
+
+    public double Subtotal
+    {
+        get { return _subtotal; }
+        set
+        {
+            if (value < 0)
+                Console.WriteLine("Subtotal cannot be negative.");
+            else
+                _subtotal = value;
+        }
+    }
+
+    public CartItem(Product product, int quantity)
+    {
+        Product = product;
+        Quantity = quantity;
+        Subtotal = product.GetItemTotal(quantity);
+    }
+}
+
+class Order
+{
+    private int _receiptNumber;
+    private DateTime _dateTime;
+    private CartItem[] _items;
+    private int _itemCount;
+    private double _grandTotal;
+    private double _discount;
+    private double _finalTotal;
+    private double _payment;
+    private double _change;
+
+    public int ReceiptNumber
+    {
+        get { return _receiptNumber; }
+        set { _receiptNumber = value; }
+    }
+
+    public DateTime DateTime
+    {
+        get { return _dateTime; }
+        set { _dateTime = value; }
+    }
+
+    public CartItem[] Items
+    {
+        get { return _items; }
+        set { _items = value; }
+    }
+
+    public int ItemCount
+    {
+        get { return _itemCount; }
+        set { _itemCount = value; }
+    }
+
+    public double GrandTotal
+    {
+        get { return _grandTotal; }
+        set { _grandTotal = value; }
+    }
+
+    public double Discount
+    {
+        get { return _discount; }
+        set { _discount = value; }
+    }
+
+    public double FinalTotal
+    {
+        get { return _finalTotal; }
+        set { _finalTotal = value; }
+    }
+
+    public double Payment
+    {
+        get { return _payment; }
+        set { _payment = value; }
+    }
+
+    public double Change
+    {
+        get { return _change; }
+        set { _change = value; }
+    }
+}
 
 class Program
 {
@@ -58,7 +216,7 @@ class Program
             new Product(4, "Apple",    "Food",        30.00,    85),
             new Product(5, "T-Shirt",  "Clothing",    500.00,   67),
             new Product(6, "Pants",    "Clothing",    750.00,   76),
-    };
+        };
 
         CartItem[] cart = new CartItem[10];
         int cartCount = 0;
@@ -177,8 +335,10 @@ class Program
         }
 
         if (!found)
+        {
             Console.WriteLine();
-        Console.WriteLine("No products in this category.");
+            Console.WriteLine("No products in this category.");
+        }
     }
 
     static void AddToCart(Product[] menu, CartItem[] cart, ref int cartCount)
