@@ -57,13 +57,8 @@ class Program
             new Product(3, "Banana",   "Food",        25.00,    75),
             new Product(4, "Apple",    "Food",        30.00,    85),
             new Product(5, "T-Shirt",  "Clothing",    500.00,   67),
-            new Product(6, "Pants",    "Clothing",    750.00,   76),
-            new Product(1,"Infinix",4500.00,50),
-            new Product(2,"Oppo",5500.00,30),
-            new Product(3,"Vivo",6000.00,20),
-            new Product(4,"Samsung",10000.00,15),
-            new Product(5,"Apple",20000.00,10)
-        };
+            new Product(6, "Pants",    "Clothing",    750.00,   76),   
+    };
 
         CartItem[] cart = new CartItem[10];
         int cartCount = 0;
