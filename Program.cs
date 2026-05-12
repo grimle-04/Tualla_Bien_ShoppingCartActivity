@@ -135,7 +135,7 @@ class Program
                     break;
                 case "6":
                     running = false;
-                    Console.WriteLine("Thank you for visiting! Goodbye!");
+                    Console.WriteLine("Thank you for visiting! Please come again!");
                     break;
                 default:
                     Console.WriteLine("Invalid option. Please enter 1 to 6 only.");
